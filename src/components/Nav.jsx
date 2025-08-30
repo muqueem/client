@@ -1,0 +1,21 @@
+import React from 'react'
+import { NavLink } from 'react-router-dom';
+
+const Nav = ({ setIsMenuOpen = () => {} }) => {
+  
+  const quickLinks = [
+      { name: "About Us", href: "/about" },
+      { name: "Contact Us", href: "/contact" },
+      { name: "Plans", href: "/plans" }
+  ]
+
+  return (
+    <>
+        {quickLinks.map((link, index) => (
+            <li key={index} onClick={() => setIsMenuOpen(false)} className='nav-item text-white hover:text-[#dbb149] transition-all duration-300'><NavLink to={link.href} className={(({ isActive }) => isActive ? "text-[#dbb149] font-semibold" : "")}>{link.name}</NavLink></li>
+        ))}
+    </>
+  )
+}
+
+export default Nav;
