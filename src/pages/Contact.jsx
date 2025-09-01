@@ -67,7 +67,7 @@ const Contact = () => {
                             </div>
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">Email Support</h3>
                             <p className="text-gray-600 mb-4">Send us a detailed message</p>
-                            <p className="text-sm font-medium text-green-600">support@tradepro.com</p>
+                            <p className="text-sm font-medium text-green-600">support@quantum.com</p>
                         </div>
 
                         <div className="text-center p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-shadow">
@@ -231,9 +231,9 @@ const Contact = () => {
                                         <div>
                                             <h3 className="font-semibold text-gray-300 mb-1">Email</h3>
                                             <p className="text-gray-300">
-                                                General: info@tradepro.com<br />
-                                                Support: support@tradepro.com<br />
-                                                Partnerships: partners@tradepro.com
+                                                General: info@quantum.com<br />
+                                                Support: support@quantum.com<br />
+                                                Partnerships: partners@quantum.com
                                             </p>
                                         </div>
                                     </div>
@@ -344,7 +344,7 @@ const Contact = () => {
                     <div className="space-y-6">
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                                How do I get started with TradePro?
+                                How do I get started with Quantum?
                             </h3>
                             <p className="text-gray-600">
                                 Simply create a free account, complete our quick verification process, and you can
@@ -364,7 +364,7 @@ const Contact = () => {
 
                         <div className="bg-white rounded-lg border border-gray-200 p-6">
                             <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                                Is my money safe with TradePro?
+                                Is my money safe with Quantum?
                             </h3>
                             <p className="text-gray-600">
                                 Yes, your funds are fully protected by SIPC insurance and segregated from company assets.

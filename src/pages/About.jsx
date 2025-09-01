@@ -36,7 +36,7 @@ const About = () => {
                             <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Story</h2>
                             <p className="text-lg text-gray-600 mb-6">
                                 Founded in 2018 by a team of former Wall Street professionals and tech innovators,
-                                TradePro was born from a simple observation: trading technology was either too
+                                Quantum was born from a simple observation: trading technology was either too
                                 complex for beginners or too limited for professionals.
                             </p>
                             <p className="text-lg text-gray-600 mb-6">
@@ -165,7 +165,7 @@ const About = () => {
                             Leadership Team
                         </h2>
                         <p className="text-xl text-gray-300">
-                            Meet the experienced professionals driving TradePro's vision forward.
+                            Meet the experienced professionals driving Quantum's vision forward.
                         </p>
                     </div>
 
@@ -213,7 +213,7 @@ const About = () => {
                             Our Journey
                         </h2>
                         <p className="text-xl text-gray-600">
-                            Key milestones that shaped TradePro into the platform it is today.
+                            Key milestones that shaped Quantum into the platform it is today.
                         </p>
                     </div>
 
@@ -225,7 +225,7 @@ const About = () => {
                             <div>
                                 <h3 className="text-xl font-semibold text-gray-900 mb-2">Company Founded</h3>
                                 <p className="text-gray-600">
-                                    TradePro was established with $5M in seed funding to revolutionize retail trading technology.
+                                    Quantum was established with $5M in seed funding to revolutionize retail trading technology.
                                 </p>
                             </div>
                         </div>

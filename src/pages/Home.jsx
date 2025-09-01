@@ -181,7 +181,7 @@ const Home = () => {
                 <div className="container">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-50 mb-4">
-                            Why Choose TradePro?
+                            Why Choose Quantum?
                         </h2>
                         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
                             Our platform combines cutting-edge technology with user-friendly design to deliver
@@ -319,7 +319,7 @@ const Home = () => {
                                 </div>
                             </div>
                             <p className="text-gray-700">
-                                "TradePro's platform has revolutionized my trading strategy. The analytics
+                                "Quantum's platform has revolutionized my trading strategy. The analytics
                                 are incredibly detailed and the execution speed is unmatched."
                             </p>
                         </div>
@@ -335,7 +335,7 @@ const Home = () => {
                                 </div>
                             </div>
                             <p className="text-gray-700">
-                                "As a fund manager, I need reliable tools and data. TradePro delivers
+                                "As a fund manager, I need reliable tools and data. Quantum delivers
                                 exactly that with their institutional-grade platform."
                             </p>
                         </div>
