@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getPlans, purchaseSubscription, getUserSubscription } from "../api/auth";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { getDecryptedData } from "../utils/encryption";
@@ -14,17 +14,20 @@ const Plans = () => {
   const [plans, setPlans] = useState([]);
   const [loading, setLoading] = useState(false);
   const [userSub, setUserSub] = useState(null);
+  const [isLoggedin, setIsLoggedin] = useState(false);
 
   useEffect(() => {
     const loadData = async () => {
+      if (!token) return;
       try {
         setLoading(true);
-        const [plansData, subscriptionData] = await Promise.all([
+        const [plansData, subscriptionData, loggedIn] = await Promise.all([
           getPlans(),
           token ? getUserSubscription(token) : null,
         ]);
         setPlans(plansData);
         setUserSub(subscriptionData);
+        setIsLoggedin(loggedIn);
       } catch (error) {
         console.error(error);
         toast.error(error.message);
@@ -57,7 +60,7 @@ const Plans = () => {
           <span className="loader"></span>
         </div>
       )}
-      <div className="relative flex flex-col justify-center items-center text-black">
+      {isLoggedin ? (<div className="relative flex flex-col justify-center items-center text-black">
         <section className="w-full bg-[#0083cf] text-white py-5">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-6">
@@ -125,7 +128,14 @@ const Plans = () => {
         {!loading && plans.length === 0 && (
           <p className="text-gray-500 text-center mt-8">No plans available at the moment.</p>
         )}
-      </div>
+      </div>) : (
+        <div className="flex justify-center items-center flex-col h-[70vh] gap-5">
+          <p>Please Sign in to see our Plans</p>
+          <button className="bg-gray-900 text-white font-semibold py-4 px-8 rounded-lg text-lg hover:bg-[#dbb149] hover:text-white transition-all duration-300">
+            <Link to={"/login"}>Sign in Now</Link>
+          </button>
+        </div>
+      )}
     </>
   );
 };

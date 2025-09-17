@@ -16,7 +16,7 @@ const Header = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (!token) setIsLoggedin(false);
+      if (!token) {setIsLoggedin(false); return};
       try {
         const res = await verifyUser(token);
         setIsLoggedin(true);
@@ -69,7 +69,7 @@ const Header = () => {
               </div>
             </Link>
           ) : (
-            <button className="px-10 max-md:hidden max-md:text-sm max-md:px-3 max-md:py-1 py-2 bg-white shadow-2xl -shadow-sky-700 text-md hover:bg-[#dbb149] hover:text-white text-black font-semibold rounded transition-all duration-300">
+            <button className="px-10 max-md:hidden max-md:text-sm max-md:px-3 max-md:py-1 py-2 bg-white shadow-2xl -shadow-sky-700 text-md hover:bg-[#0083cf] hover:text-white text-black font-semibold rounded transition-all duration-300">
               <Link to={"/login"}>
                 Sign in
               </Link>
