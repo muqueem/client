@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getPlans, purchaseSubscription, getUserSubscription } from "../api/auth";
+import { getPlans, getUserSubscription, verifyUser } from "../api/auth";
 import toast from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
@@ -18,14 +18,15 @@ const Plans = () => {
 
   useEffect(() => {
     const loadData = async () => {
+      const res = await getPlans();
+      setPlans(res)
       if (!token) return;
       try {
         setLoading(true);
-        const [plansData, subscriptionData, loggedIn] = await Promise.all([
-          getPlans(),
+        const [subscriptionData, loggedIn] = await Promise.all([
           token ? getUserSubscription(token) : null,
+          token ? verifyUser(token) : null
         ]);
-        setPlans(plansData);
         setUserSub(subscriptionData);
         setIsLoggedin(loggedIn);
       } catch (error) {
@@ -37,7 +38,17 @@ const Plans = () => {
     };
     loadData();
   }, [token]);
+
+  const handleSelectedPlanId = (planId) => {
+    if (planId === selectedPlanId) setSelectedPlanId(null);
+    else {setSelectedPlanId(planId)};
+  }
+
   const handlePurchase = async () => {
+    if (!isLoggedin) {
+      toast.error("Please login to purchase any Plan");
+      return;
+    }
     if (userSub) {
       toast.error("You already have an active subscription.");
       return;
@@ -60,7 +71,7 @@ const Plans = () => {
           <span className="loader"></span>
         </div>
       )}
-      {isLoggedin ? (<div className="relative flex flex-col justify-center items-center text-black">
+      <div className="relative flex flex-col justify-center items-center text-black">
         <section className="w-full bg-[#0083cf] text-white py-5">
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-bold mb-6">
@@ -78,7 +89,7 @@ const Plans = () => {
 
             return (
               <div
-                onClick={() => setSelectedPlanId(plan._id)}
+                onClick={() => handleSelectedPlanId(plan._id)}
                 key={plan._id}
                 className={`relative bg-white rounded-2xl shadow-xl border hover:scale-105 border-gray-200 p-3 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl ${selectedPlanId === plan._id ? "ring-2 ring-gradient-to-r from-blue-400 to-blue-600" : ""
                   }`}
@@ -88,7 +99,7 @@ const Plans = () => {
                     Current Plan
                   </span>
                 )}
-                {selectedPlanId === plan._id && !userSub && (
+                {selectedPlanId === plan._id && !userSub && isLoggedin && (
                   <IoMdCheckmarkCircleOutline className="absolute top-6 right-6 text-3xl text-white" />
                 )}
 
@@ -120,7 +131,7 @@ const Plans = () => {
         </div>
 
         <div className="w-[20%]">
-          <button onClick={handlePurchase} className={`w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-semibold py-3 rounded-xl transition-colors duration-300 ${userSub && "cursor-no-drop from-gray-500 to-gray-500 hover:from-gray-500 hover:to-gray-500"}`}>
+          <button onClick={handlePurchase} className={`w-full bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white font-semibold py-3 rounded-xl transition-colors duration-300 ${userSub || !isLoggedin || !selectedPlanId ? "cursor-no-drop from-gray-500 to-gray-500 hover:from-gray-500 hover:to-gray-500" : ""}`}>
             <span className="flex items-center justify-center gap-3">Continue to Checkout <FaArrowRightLong /></span>
           </button>
         </div>
@@ -128,14 +139,7 @@ const Plans = () => {
         {!loading && plans.length === 0 && (
           <p className="text-gray-500 text-center mt-8">No plans available at the moment.</p>
         )}
-      </div>) : (
-        <div className="flex justify-center items-center flex-col h-[70vh] gap-5">
-          <p>Please Sign in to see our Plans</p>
-          <button className="bg-gray-900 text-white font-semibold py-4 px-8 rounded-lg text-lg hover:bg-[#dbb149] hover:text-white transition-all duration-300">
-            <Link to={"/login"}>Sign in Now</Link>
-          </button>
-        </div>
-      )}
+      </div>
     </>
   );
 };

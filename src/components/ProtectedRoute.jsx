@@ -33,7 +33,7 @@ const ProtectedRoute = ({ children }) => {
     );
   }
 
-  return isVerified ? children : <Navigate to="/login" />;
+  return isVerified ? children : <Navigate to="/" />;
 };
 
 export default ProtectedRoute;
