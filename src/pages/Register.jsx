@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import { registerUser } from "../api/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { FaUser } from "react-icons/fa";
 import { setEncryptedData } from "../utils/encryption";
+import { ArrowLeft } from "lucide-react";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -52,18 +53,33 @@ const Register = () => {
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen text-black">
-      {/* Heading */}
+      {loading && (
+        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity duration-500">
+          <span className="loader"></span>
+        </div>
+      )}
+      <div className="bg-white/80 w-full backdrop-blur-md border-b border-gray-200 absolute top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <Link to="/">
+            <button
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </button>
+          </Link>
+        </div>
+      </div>
+
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold">Create an Account</h1>
-        <p className="text-gray-600 text-lg">
-          Sign up to get started with your journey
-        </p>
+        <p className="text-gray-600 text-lg">Sign up to get started with your journey</p>
       </div>
 
       {/* Form */}
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 w-full max-w-xl space-y-6"
+        className="container bg-white rounded-2xl shadow-xl border border-gray-100 p-5 md:p-8 w-full max-w-xl space-y-6"
       >
         {/* Name */}
         <div>
@@ -143,9 +159,8 @@ const Register = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded cursor-pointer ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
+          className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded cursor-pointer ${loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
         >
           {loading ? "Registering..." : <span className="flex items-center justify-center gap-3">Register <FaArrowRightLong /></span>}
         </button>

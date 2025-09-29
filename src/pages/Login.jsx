@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import toast from 'react-hot-toast';
 import { loginUser } from "../api/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 import { IoMdLock } from "react-icons/io";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { setEncryptedData } from "../utils/encryption";
+import { ArrowLeft } from "lucide-react";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -52,14 +53,27 @@ const Login = () => {
           <span className="loader"></span>
         </div>
       )}
+      <div className="bg-white/80 w-full backdrop-blur-md border-b border-gray-200 absolute top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 py-4">
+          <Link to="/">
+            <button
+              className="inline-flex items-center gap-2 text-gray-600 hover:text-blue-600 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Home
+            </button>
+          </Link>
+        </div>
+      </div>
 
       <div className="text-center mb-10">
         <h1 className="text-4xl font-bold">Welcome back</h1>
         <p className="text-gray-600 text-lg">Sign in to your account to continue</p>
       </div>
+      
       <form
         onSubmit={handleSubmit}
-        className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 w-full max-w-xl space-y-6"
+        className="container bg-white rounded-2xl shadow-xl border border-gray-100 p-5 md:p-8 w-full max-w-xl space-y-6"
       >
         <div>
           <label htmlFor="email" className="block text-lg font-semibold text-gray-700 mb-2">

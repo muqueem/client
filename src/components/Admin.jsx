@@ -91,7 +91,7 @@ const Admin = () => {
                 className={`px-6 py-3 rounded-xl font-semibold transition-all duration-200 capitalize ${activeFilter === filter
                   ? "bg-gray-900 text-white shadow-lg transform scale-105"
                   : "bg-white/70 text-gray-700 hover:bg-white/90 hover:shadow-md"
-                }`}
+                  }`}
               >
                 {filter} {filter !== "all" && `(${count})`}
               </button>
@@ -153,11 +153,11 @@ const Admin = () => {
                         </td>
                         <td className="py-6 px-6">
                           <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-indigo-50 text-indigo-800 border border-indigo-200">
-                            {sub.planId?.name}
+                            {sub.planId?.name || "N/A"}
                           </span>
                         </td>
                         <td className="py-6 px-6">
-                          <span className="text-xl font-bold text-green-600">${sub.planId?.price?.toLocaleString()}</span>
+                          <span className="text-xl font-bold text-green-600">${sub.planId?.price?.toLocaleString() || "N/A"}</span>
                         </td>
                         <td className="py-6 px-6">
                           <div className="text-sm text-gray-600">

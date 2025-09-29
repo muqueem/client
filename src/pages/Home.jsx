@@ -1,23 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { Shield, Zap, BarChart3, Award } from 'lucide-react';
+import { Shield, Zap, BarChart3, Award, Users } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { getDecryptedData } from "../utils/encryption";
-import { getUserSubscription } from "../api/auth";
+// import { getUserSubscription } from "../api/auth";
 import FooterCTA from "../components/FooterCTA";
+import CapitalAllocationCalculator from "../components/CapitalAllocationCalculator";
 
 const Home = () => {
     const token = getDecryptedData("token");
     const [userSub, setUserSub] = useState(null);
-    useEffect(() => {
-        const fetchSub = async () => {
-            if (!token) return;
-            const data = await getUserSubscription(token);
-            setUserSub(data);
-        }
+//     useEffect(() => {
+//         const fetchSub = async () => {
+//             if (!token) return;
+//             const data = await getUserSubscription(token);
+//             setUserSub(data);
+//         }
+// 
+//         fetchSub();
+//     }, [])
 
-        fetchSub();
-    }, [])
-    
     const tickers = [
         { symbol: "AAPL", price: 174.23, change: 1.25 },
         { symbol: "TSLA", price: 675.12, change: -2.34 },
@@ -183,23 +184,23 @@ const Home = () => {
                 <div className="container">
                     <div className="text-center mb-16">
                         <h2 className="text-3xl md:text-4xl font-bold text-gray-50 mb-4">
-                            Why Choose Quantum?
+                            Why Choose Quantum Rise Capital
                         </h2>
                         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                            Our platform combines cutting-edge technology with user-friendly design to deliver
-                            the ultimate trading experience.
+                            We build trading systems focused on precision, risk control, and long-term sustainability —
+                            not just hype or noise.
                         </p>
                     </div>
 
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div className="text-center p-6 rounded-xl border border-gray-600 hover:shadow-2xl shadow-lg transition-shadow duration-300">
                             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Zap className="h-8 w-8 text-blue-600" />
+                                <BarChart3 className="h-8 w-8 text-blue-600" />
                             </div>
-                            <h3 className="text-xl font-semibold text-white mb-2">Lightning Fast</h3>
+                            <h3 className="text-xl font-semibold text-white mb-2">Data-Driven Precision</h3>
                             <p className="text-gray-300">
-                                Execute trades in milliseconds with our high-performance infrastructure
-                                and direct market access.
+                                Every strategy is statistically validated, historically tested, and adaptable to live
+                                market conditions.
                             </p>
                         </div>
 
@@ -207,26 +208,113 @@ const Home = () => {
                             <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <Shield className="h-8 w-8 text-green-600" />
                             </div>
-                            <h3 className="text-xl font-semibold text-white mb-2">Bank-Level Security</h3>
+                            <h3 className="text-xl font-semibold text-white mb-2">Risk First, Profit Next</h3>
                             <p className="text-gray-300">
-                                Your funds and data are protected with industry-leading encryption
-                                and multi-factor authentication.
+                                Strict drawdown limits and adaptive risk controls are built in to prioritize longevity
+                                before luck.
                             </p>
                         </div>
 
                         <div className="text-center p-6 rounded-xl border border-gray-600 hover:shadow-2xl shadow-lg transition-shadow duration-300">
                             <div className="bg-purple-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <BarChart3 className="h-8 w-8 text-purple-600" />
+                                <Zap className="h-8 w-8 text-purple-600" />
                             </div>
-                            <h3 className="text-xl font-semibold text-white mb-2">Advanced Analytics</h3>
+                            <h3 className="text-xl font-semibold text-white mb-2">Prop-Firm Ready Solutions</h3>
                             <p className="text-gray-300">
-                                Make informed decisions with our comprehensive charting tools
-                                and market analysis features.
+                                Our bots are engineered to meet strict prop firm rules while keeping execution and
+                                performance strong.
+                            </p>
+                        </div>
+
+                        <div className="text-center p-6 rounded-xl border border-gray-600 hover:shadow-2xl shadow-lg transition-shadow duration-300">
+                            <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Award className="h-8 w-8 text-yellow-600" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Intelligent Capital Allocation</h3>
+                            <p className="text-gray-300">
+                                Balance risk and maximize return by diversifying across optimized strategies for evolving
+                                markets.
+                            </p>
+                        </div>
+
+                        <div className="text-center p-6 rounded-xl border border-gray-600 hover:shadow-2xl shadow-lg transition-shadow duration-300">
+                            <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Zap className="h-8 w-8 text-red-600" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">Transparency & Innovation</h3>
+                            <p className="text-gray-300">
+                                We don’t hide behind flashy promises. Every EA is tested, monitored, and performance-tracked.
+                                We constantly innovate with AI-enhanced filters and advanced equity protection.
+                            </p>
+                        </div>
+
+                        <div className="text-center p-6 rounded-xl border border-gray-600 hover:shadow-2xl shadow-lg transition-shadow duration-300">
+                            <div className="bg-indigo-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <Users className="h-8 w-8 text-indigo-600" />
+                            </div>
+                            <h3 className="text-xl font-semibold text-white mb-2">A Partner, Not Just a Provider</h3>
+                            <p className="text-gray-300">
+                                When you work with Quantum Rise Capital, you’re not just buying a trading bot. You’re gaining
+                                a partner committed to your growth, resilience, and long-term success.
                             </p>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <section className="py-20 border-b border-b-gray-300 bg-gray-50">
+                <div className="container">
+                    <div className="text-center mb-16">
+                        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                            Our Services
+                        </h2>
+                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Practical trading solutions tailored for every stage of your growth —
+                            from smart capital allocation to advanced automation.
+                        </p>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition-shadow duration-300">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                                Personal Consultation & Capital Advisory
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Tailored one-on-one guidance designed to help you optimize your capital allocation and enhance portfolio performance. We focus on smart risk management, efficient diversification, and forward-thinking strategies to ensure your money works harder for you.
+                            </p>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition-shadow duration-300">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                                Prop Firm System Design & Challenge Acceleration
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Every prop firm has its own rules, restrictions, and hidden traps. We build and test custom trading systems engineered for specific prop firm conditions maximizing your chances of passing challenges quickly and securing funded accounts.
+                            </p>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition-shadow duration-300">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                                Quarterly Bot Optimization Subscription
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Markets evolve, and so should your bots. With our subscription service, we provide quarterly parameter reviews and updates for every Quantum Rise Capital trading bot. Stay ahead of market shifts with strategies that adapt, not stagnate.
+                            </p>
+                        </div>
+
+                        <div className="bg-white p-6 rounded-xl shadow hover:shadow-xl transition-shadow duration-300">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                                Custom EA Development & Partnership Program
+                            </h3>
+                            <p className="text-gray-600 text-sm">
+                                Got a trading idea? We’ll transform it into a fully automated MT5 trading system—from concept to execution. If your strategy is both unique and market-ready, we’ll even publish it on our platform with a 50/50 profit-sharing model. Your idea, our tech, shared success.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <CapitalAllocationCalculator />
 
             <section className="py-16 bg-gray-50 text-white">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getPlanById, purchaseSubscription } from "../api/auth";
+// import { getPlanById, purchaseSubscription } from "../api/auth";
 import toast from "react-hot-toast";
 import { getDecryptedData } from "../utils/encryption";
 import ProtectedRoute from "../components/ProtectedRoute";
@@ -49,7 +49,7 @@ const Checkout = () => {
                 <h1 className="text-3xl font-bold mb-4">Checkout</h1>
                 <div className="w-[28%]">
                     <div
-                        className={`relative bg-white rounded-2xl shadow-xl border border-gray-200 p-3 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl ring-2 ring-gradient-to-r from-blue-400 to-blue-600"`} >
+                        className={`relative bg-white rounded-2xl shadow-xl border border-gray-200 p-3 flex flex-col justify-between transition-all duration-300 hover:shadow-2xl"`} >
                         <div>
                             <h2 className="w-full text-2xl font-bold text-white bg-gradient-to-r from-blue-400 to-blue-600 inline-block px-10 py-6 rounded-md mb-4">
                                 {plan.name}

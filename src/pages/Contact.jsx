@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TrendingUp, Mail, Phone, MapPin, Clock, Send, MessageSquare, HelpCircle, Briefcase } from 'lucide-react';
+import { BsWhatsapp } from 'react-icons/bs';
 
 const Contact = () => {
     const [formData, setFormData] = useState({
@@ -51,12 +52,12 @@ const Contact = () => {
 
             <section className="py-16 bg-white">
                 <div className="container">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div className="text-center p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-shadow">
                             <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <MessageSquare className="h-8 w-8 text-blue-600" />
+                                <BsWhatsapp className="h-8 w-8 text-blue-600" />
                             </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Live Chat</h3>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-2">WhatsApp</h3>
                             <p className="text-gray-600 mb-4">Get instant help from our support team</p>
                             <p className="text-sm font-medium text-blue-600">Available 24/7</p>
                         </div>
@@ -78,15 +79,6 @@ const Contact = () => {
                             <p className="text-gray-600 mb-4">Speak directly with our team</p>
                             <p className="text-sm font-medium text-purple-600">+1 (555) 123-4567</p>
                         </div>
-
-                        <div className="text-center p-6 border border-gray-200 rounded-xl hover:shadow-lg transition-shadow">
-                            <div className="bg-yellow-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <HelpCircle className="h-8 w-8 text-yellow-600" />
-                            </div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">Help Center</h3>
-                            <p className="text-gray-600 mb-4">Browse our knowledge base</p>
-                            <p className="text-sm font-medium text-yellow-600">Self-service options</p>
-                        </div>
                     </div>
                 </div>
             </section>
@@ -94,8 +86,8 @@ const Contact = () => {
             <section className="py-20 bg-gray-900">
                 <div className="container">
                     <div className="grid lg:grid-cols-2 gap-12">
-                        <div className="flex items-center justify-center bg-gray-50 rounded-2xl">
-                            <div className="bg-white w-11/12 rounded-2xl shadow-2xl p-8 border border-gray-300">
+                        <div className="flex items-center justify-center md:bg-gray-50 rounded-2xl">
+                            <div className="bg-white w-full md:w-11/12 rounded-2xl shadow-2xl p-3 md:p-8 border border-gray-300">
                                 <h2 className="text-2xl font-bold text-gray-900 mb-6">Send us a Message</h2>
 
                                 {isSubmitted ? (

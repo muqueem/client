@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import Nav from "./Nav";
 import { IoIosMenu, IoMdClose } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { FaUserCircle } from "react-icons/fa";
 import { verifyUser } from "../api/auth";
 import { getDecryptedData } from "../utils/encryption";
 
@@ -16,20 +15,23 @@ const Header = () => {
 
   useEffect(() => {
     const checkAuth = async () => {
-      if (!token) {setIsLoggedin(false); return};
+      if (!token) {
+        setIsLoggedin(false);
+        return;
+      }
       try {
-        const res = await verifyUser(token);
+        await verifyUser(token);
         setIsLoggedin(true);
       } catch (error) {
         console.error(error);
         setIsLoggedin(false);
       }
-    }
+    };
 
     checkAuth();
   }, [token]);
 
-  const toggleMenu = () => setIsMenuOpen(prev => !prev);
+  const toggleMenu = () => setIsMenuOpen((prev) => !prev);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,66 +41,109 @@ const Header = () => {
         setHideNavbar(false);
       }
       lastScrollY.current = window.scrollY;
-    }
+    };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [])
+  }, []);
 
   return (
-    <header className={`header border-b border-b-gray-300 cursor-pointer w-full bg-gray-900 shadow-lg z-10 fixed transition-all duration-300 left-0 ${hideNavbar ? "-top-48" : "top-0"}`}>
-      <div className="container grid grid-cols-3 items-center py-4">
+    <header
+      className={`header border-b border-b-gray-300 cursor-pointer w-full bg-gray-900 shadow-lg z-50 fixed transition-all duration-300 left-0 ${
+        hideNavbar ? "-top-48" : "top-0"
+      }`}
+    >
+      <div className="container grid grid-cols-2 md:grid-cols-3 items-center py-4 relative z-50">
+        {/* Logo */}
         <div className="logo">
           <Link to="/">
-            <img className="w-[150px] max-md:w-[100px]" src="/logo.png" alt="" />
+            <img
+              className="w-[150px] max-md:w-[100px]"
+              src="/logo.png"
+              alt="Logo"
+            />
           </Link>
         </div>
 
-        <nav className="navbar max-md:hidden">
-          <ul className='flex md:gap-5 lg:gap-10 justify-center'>
+        <nav className="navbar hidden md:block">
+          <ul className="flex md:gap-5 lg:gap-10 justify-center">
             <Nav />
           </ul>
         </nav>
 
-        <div className="flex justify-end">
+        {/* Right side */}
+        <div className="flex justify-end items-center gap-4">
           {isLoggedin ? (
             <Link to="/my-account">
-              <div className="w-12 h-12 bg-[#0083cf] rounded-full flex items-center justify-center text-white font-bold text-lg hover:bg-blue-900 transition-colors duration-300">
-                {user?.name?.charAt(0) || <FaUserCircle className="text-5xl text-white " />}
+              <div className="w-12 h-12 bg-[#0083cf] rounded-full max-md:hidden flex items-center justify-center text-white font-bold text-lg hover:bg-blue-900 transition-colors duration-300">
+                {user?.name?.charAt(0) || "H"}
               </div>
             </Link>
           ) : (
-            <button className="px-10 max-md:hidden max-md:text-sm max-md:px-3 max-md:py-1 py-2 bg-white shadow-2xl -shadow-sky-700 text-md hover:bg-[#0083cf] hover:text-white text-black font-semibold rounded transition-all duration-300">
-              <Link to={"/login"}>
+            <Link to="/login">
+              <button className="px-6 py-2 bg-white shadow-2xl max-md:hidden text-md hover:bg-[#0083cf] hover:text-white text-black font-semibold rounded transition-all duration-300">
                 Sign in
-              </Link>
-            </button>
+              </button>
+            </Link>
           )}
-        </div>
 
-        <button onClick={toggleMenu} className="md:hidden">
-          {isMenuOpen
-            ? <IoMdClose className="w-8 h-8" />
-            : <IoIosMenu className="w-8 h-8" />
-          }
-        </button>
+          {/* Mobile hamburger */}
+          <button
+            onClick={toggleMenu}
+            className="md:hidden transition-transform duration-300 ease-in-out z-50"
+          >
+            {!isMenuOpen && <IoIosMenu className="w-8 h-8 text-white transform rotate-0 transition-transform duration-300" />}
+          </button>
+        </div>
       </div>
+
+      {/* Overlay */}
       {isMenuOpen && (
-        <nav className="md:hidden absolute top-full left-0 w-full z-10 py-6">
-          <div className="absolute inset-0"></div>
-          <div className="container">
-            <ul className='flex items-end flex-col gap-10'>
-              <Nav setIsMenuOpen={setIsMenuOpen} />
-            </ul>
-            <button
-              className="mt-6 px-6 py-2 bg-yellow-500 text-black font-semibold rounded w-full hover:bg-[#dbb149] hover:text-white transition-colors duration-300"
-            >
-              Get a Quote
-            </button>
-          </div>
-        </nav>
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm md:hidden z-40"
+          onClick={() => setIsMenuOpen(false)}
+        ></div>
       )}
+
+      {/* Mobile Dropdown */}
+      <div
+        className={`md:hidden bg-gray-900 overflow-hidden fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-in-out ${
+          isMenuOpen
+            ? "max-h-screen opacity-100 translate-y-0"
+            : "max-h-0 opacity-0 -translate-y-5"
+        }`}
+      >
+        <div className="container py-6 flex flex-col items-start gap-10">
+          <button
+            onClick={toggleMenu}
+            className="md:hidden transition-transform duration-300 ease-in-out z-50 absolute right-8"
+          >
+            <IoMdClose className="w-8 h-8 text-white transform rotate-180 transition-transform duration-300" />
+          </button>
+          {isLoggedin ? (
+            <Link to="/my-account">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="w-12 h-12 bg-[#0083cf] rounded-full flex items-center justify-center text-white font-bold text-lg hover:bg-blue-900 transition-colors duration-300"
+              >
+                {user?.name?.charAt(0) || "H"}
+              </button>
+            </Link>
+          ) : (
+            <Link to="/login">
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="px-6 py-2 bg-white shadow-2xl text-md hover:bg-[#0083cf] hover:text-white text-black font-semibold rounded transition-all duration-300"
+              >
+                Sign in
+              </button>
+            </Link>
+          )}
+          <ul className="flex flex-col gap-10">
+            <Nav setIsMenuOpen={setIsMenuOpen} />
+          </ul>
+        </div>
+      </div>
     </header>
   );
 };
