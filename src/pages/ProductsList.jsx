@@ -10,7 +10,7 @@ export default function ProductsList() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50">
       <div className="bg-white/80 backdrop-blur-md border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 py-8">
+        <div className="container px-4 py-8">
           <div className="text-center mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
               Premium Trading <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Expert Advisors</span>
@@ -54,7 +54,7 @@ export default function ProductsList() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 py-12">
+      <div className="container">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
           {products.map((product) => (
             <ProductCard

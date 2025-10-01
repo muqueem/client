@@ -2,22 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Shield, Zap, BarChart3, Award, Users } from 'lucide-react';
 import { Link } from "react-router-dom";
 import { getDecryptedData } from "../utils/encryption";
-// import { getUserSubscription } from "../api/auth";
+import { getUserSubscription } from "../api/auth";
 import FooterCTA from "../components/FooterCTA";
 import CapitalAllocationCalculator from "../components/CapitalAllocationCalculator";
 
 const Home = () => {
     const token = getDecryptedData("token");
     const [userSub, setUserSub] = useState(null);
-//     useEffect(() => {
-//         const fetchSub = async () => {
-//             if (!token) return;
-//             const data = await getUserSubscription(token);
-//             setUserSub(data);
-//         }
-// 
-//         fetchSub();
-//     }, [])
+    useEffect(() => {
+        const fetchSub = async () => {
+            if (!token) return;
+            const data = await getUserSubscription(token);
+            setUserSub(data);
+        }
+
+        fetchSub();
+    }, [])
 
     const tickers = [
         { symbol: "AAPL", price: 174.23, change: 1.25 },

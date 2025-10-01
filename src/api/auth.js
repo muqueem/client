@@ -44,10 +44,10 @@ export const getProducts = () => apiRequest("/products");
 
 // Subscription endpoints (✅ updated to match backend)
 export const purchaseSubscription = (payload, token) => apiRequest("/subscription/purchase", "POST", payload, token);
-export const getUserSubscriptions = (token) => apiRequest("/subscription/my", "GET", null, token);
+export const getUserSubscription = (token) => apiRequest("/subscription/my", "GET", null, token);
 export const renewSupport = (payload, token) => apiRequest("/subscription/renew-support", "POST", payload, token);
 
 // Admin: get all subscriptions (if you have admin route)
-export const getAllSubscriptions = (token) => apiRequest("/subscription", "GET", null, token);
+export const getAllSubscriptions = (token) => apiRequest("/admin/get-all-subscriptions", "GET", null, token);
 
 export default apiRequest;

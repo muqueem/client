@@ -35,7 +35,7 @@ export default function ProductCard({ product }) {
                 <img
                     src={product.image}
                     alt={product.name}
-                    className="relative z-10 w-98 object-contain transition-transform duration-700 group-hover:scale-110"
+                    className="relative z-10 w-full object-contain transition-transform duration-700 group-hover:scale-110"
                 />
             </div>
 
@@ -87,28 +87,32 @@ export default function ProductCard({ product }) {
                         </button>
                     </Link>
 
-                    <a
-                        href={`/files/${product.slug}-demo.mq5`}  // or exact file name
-                        download
-                        className="block w-full"
-                    >
-                        <button
-                            className="w-full text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-gray-900 to-gray-800 -white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
-                            Demo
-                            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                        </button>
-                    </a>
+                    {!product.itemsIncluded.length && (
+                        <a
+                            href={`/files/${product.slug}-demo.mq5`}  // or exact file name
+                            download
+                            className="block w-full"
+                        >
+                            <button
+                                className="w-full text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-gray-900 to-gray-800 -white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
+                                Demo
+                                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                            </button>
+                        </a>
+                    )}
 
-                    <Link
-                        to={`/products/${product.slug}`}
-                        className="block w-full"
-                    >
-                        <button
-                            className="w-full text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-gray-900 to-gray-800 -white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
-                            Live Trading
-                            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
-                        </button>
-                    </Link>
+                    {!product.itemsIncluded.length && (
+                        <Link
+                            to={`/products/${product.slug}`}
+                            className="block w-full"
+                        >
+                            <button
+                                className="w-full text-white py-3 px-6 rounded-xl font-semibold transition-all duration-300 bg-gradient-to-r from-gray-900 to-gray-800 -white hover:bg-gradient-to-r hover:from-blue-600 hover:to-purple-600 hover:text-white hover:shadow-lg hover:shadow-blue-500/25 flex items-center justify-center gap-2">
+                                Live Trading
+                                <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                            </button>
+                        </Link>
+                    )}
                 </div>
             </div>
 

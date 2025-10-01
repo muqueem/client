@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getDecryptedData } from '../utils/encryption';
-import { getUserSubscriptions, renewSupport } from '../api/auth';
+import { getUserSubscription, renewSupport } from '../api/auth';
 import toast from 'react-hot-toast';
 
 const MySubscription = () => {
@@ -17,7 +17,7 @@ const MySubscription = () => {
       }
       try {
         setLoading(true);
-        const res = await getUserSubscriptions(token);
+        const res = await getUserSubscription(token);
         setSubscriptions(res);
       } catch (error) {
         console.error(error);

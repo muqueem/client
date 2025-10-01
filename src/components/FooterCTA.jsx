@@ -32,7 +32,7 @@ const FooterCTA = () => {
           Experience the platform trusted by hundreds of thousands of traders worldwide.
         </p>
         <button className="bg-gray-900 text-white font-semibold py-4 px-8 rounded-lg md:text-lg hover:bg-gray-50 hover:text-gray-900 transition-all duration-300">
-          {isLoggedin ? <Link to={"/plans"}>See our plans</Link> : <Link to={"/login"}>Sign in Now</Link>}
+          {isLoggedin ? <Link to={"/products"}>See our Products</Link> : <Link to={"/login"}>Sign in Now</Link>}
         </button>
       </div>
     </section>

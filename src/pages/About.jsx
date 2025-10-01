@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TrendingUp, Target, Eye, Heart, Award, Users, Globe, Shield } from 'lucide-react';
 import { getDecryptedData } from '../utils/encryption';
-// import { getUserSubscription } from '../api/auth';
+import { getUserSubscription } from '../api/auth';
 import FooterCTA from '../components/FooterCTA';
 
 const About = () => {

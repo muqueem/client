@@ -7,10 +7,12 @@ import PlanCard from "../components/PlanCard";
 export default function ProductPage() {
   const { products } = useContextElement();
   const [selectedImage, setSelectedImage] = useState(0);
-  const { slug } = useParams(); 
-  
+  const { slug } = useParams();
+
   // Find product by slug or use default
   const product = products.find(p => p.slug === slug);
+  console.log("products", products);
+  console.log("product", product);
 
   if (!product) {
     return (
@@ -18,7 +20,7 @@ export default function ProductPage() {
         <div className="text-center p-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Product Not Found</h2>
           <p className="text-gray-600 mb-6">The product you're looking for doesn't exist.</p>
-          <button 
+          <button
             onClick={() => window.history.back()}
             className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
           >
@@ -49,7 +51,7 @@ export default function ProductPage() {
                   <Play className="w-5 h-5 text-gray-700" />
                 </button>
               </div>
-              
+
               <div className="flex items-start justify-between mb-4">
                 <div>
                   <h1 className="text-4xl font-bold text-gray-900 mb-3">{product.name}</h1>
@@ -69,7 +71,7 @@ export default function ProductPage() {
                   Download
                 </button> */}
               </div>
-              
+
               <p className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">{product.description}</p>
             </div>
 
@@ -80,7 +82,7 @@ export default function ProductPage() {
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Key Features</h2>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {product.features.map((feature, i) => (
                   <div key={i} className="flex items-center gap-3 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
@@ -106,6 +108,49 @@ export default function ProductPage() {
               </div>
             )}
 
+            {/* Items Included (for bundles/combo) */}
+            {product.itemsIncluded && product.itemsIncluded.length > 0 && (
+              <div className="bg-white rounded-3xl p-8 shadow-xl">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="bg-indigo-100 p-2 rounded-lg">
+                    <Star className="w-6 h-6 text-indigo-600" />
+                  </div>
+                  <h2 className="text-2xl font-bold text-gray-900">Included Products</h2>
+                </div>
+
+                <ul className="space-y-4">
+                  {product.itemsIncluded.map((slug, i) => {
+                    // find full product details from global products list
+                    const includedProduct = products.find(p => p.slug === slug);
+                    return (
+                      <li
+                        key={i}
+                        className="flex items-center justify-between bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-4 hover:shadow-lg transition"
+                      >
+                        <div className="flex items-center gap-4">
+                          <img
+                            src={includedProduct?.image}
+                            alt={includedProduct?.name}
+                            className="w-12 h-12 object-contain rounded-lg bg-white"
+                          />
+                          <div>
+                            <p className="font-semibold text-gray-900">{includedProduct?.name}</p>
+                            <p className="text-sm text-gray-500">{includedProduct?.plans?.[0]?.price ? `$${includedProduct.plans[0].price}` : ""}</p>
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => window.location.href = `/products/${includedProduct?.slug}`}
+                          className="text-sm font-medium text-blue-600 hover:text-blue-800 cursor-pointer"
+                        >
+                          View →
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+
             {/* Gallery */}
             {product.gallery && product.gallery.length > 0 && (
               <div className="bg-white rounded-3xl p-8 shadow-xl">
@@ -123,9 +168,8 @@ export default function ProductPage() {
                       <button
                         key={i}
                         onClick={() => setSelectedImage(i)}
-                        className={`flex-shrink-0 relative overflow-hidden rounded-lg transition-all duration-200 ${
-                          selectedImage === i ? 'ring-4 ring-blue-400 scale-105' : 'hover:scale-105'
-                        }`}
+                        className={`flex-shrink-0 relative overflow-hidden rounded-lg transition-all duration-200 ${selectedImage === i ? 'ring-4 ring-blue-400 scale-105' : 'hover:scale-105'
+                          }`}
                       >
                         <img
                           src={img}
@@ -162,15 +206,15 @@ export default function ProductPage() {
                 </h2>
                 <div className="space-y-4">
                   {product.plans.map((plan, idx) => (
-                    <PlanCard 
-                      key={idx} 
-                      plan={plan} 
+                    <PlanCard
+                      key={idx}
+                      plan={plan}
                       productId={product._id}
                     />
                   ))}
                 </div>
               </div>
-              
+
               {/* Trust Indicators */}
               <div className="bg-white rounded-3xl p-6 shadow-xl">
                 <h3 className="text-lg font-bold text-gray-900 mb-4">Why Choose Us?</h3>
