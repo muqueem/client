@@ -1,113 +1,68 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getDecryptedData } from "../utils/encryption";
-import apiRequest from "../api/auth";
+import { useParams, Link } from "react-router-dom";  // useParams instead of useLocation
+import { FaCheckCircle } from "react-icons/fa";
+import { getSubscriptionByToken } from "../api/auth";
 
-export default function SuccessPage() {
-  const params = useParams();
-  const tokenParam = params.token;
-  const token = getDecryptedData("token");
-  const [subscription, setSubscription] = useState(null);
+const Success = () => {
+  const { token } = useParams();  // Get token from URL param
   const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState(null);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
-    if (!token || !tokenParam) {
-      navigate("/"); // no token → go home
+    if (!token) {
+      setError("No session ID provided.");
+      setLoading(false);
       return;
     }
 
-    const fetchSubscription = async (retries = 3, delay = 500) => {
-      for (let i = 0; i < retries; i++) {
-        try {
-          const res = await apiRequest(
-            `/subscription/success/${tokenParam}`,
-            "GET",
-            null,
-            token
-          );
-          setSubscription(res);
-          setLoading(false);
-          setError(null);
-          return;
-        } catch (err) {
-          console.log(`Attempt ${i + 1} failed:`, err.message);
-          if (i < retries - 1) {
-            await new Promise((resolve) => setTimeout(resolve, delay));
-          } else {
-            setError("Failed to load subscription details. Please try again.");
-            setLoading(false);
-          }
-        }
+    const fetchSubscription = async () => {
+      try {
+        const data = await getSubscriptionByToken(token); // token = sessionId
+        setSubscription(data);
+      } catch (err) {
+        setError(err.message || "Failed to verify subscription.");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchSubscription();
-  }, [token, tokenParam, navigate]);
+  }, [token]);
 
-  if (loading)
+
+  if (loading) {
+    return <div>Loading your subscription details...</div>;
+  }
+
+  if (error) {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-gray-50">
-        <p className="text-gray-600 text-lg animate-pulse">
-          Loading...
-        </p>
+      <div>
+        <p className="text-red-600 mb-4">{error}</p>
+        <Link to="/" className="btn btn-primary">
+          Go Home
+        </Link>
       </div>
     );
-    
-
-  // Calculate support duration
-  const startDate = new Date(subscription.startDate || Date.now());
-  const endDate = new Date(subscription.supportEndDate);
-  const diffTime = Math.abs(endDate - startDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-6">
-      <div className="bg-white shadow-2xl rounded-2xl border border-gray-300 p-10 max-w-lg text-center">
-        <div className="mb-6">
-          <svg
-            className="mx-auto w-16 h-16 text-green-500"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-            />
-          </svg>
-        </div>
-
-        <h1 className="text-3xl font-extrabold text-gray-800 mb-4">
-          Purchase Successful 🎉
-        </h1>
-
-        <p className="text-gray-700 text-lg mb-2">
-          <span className="font-semibold">Product:</span>{" "}
-          {subscription.productId?.name}
+    <div className="flex justify-center items-center h-[70vh]">
+      <div className="relative bg-white rounded-2xl shadow-xl border border-gray-200 p-8 flex flex-col justify-between items-center transition-all duration-300 hover:shadow-2xl">
+        <FaCheckCircle className="text-7xl text-green-600 mb-5" />
+        <h1 className="text-4xl font-bold text-[#0083cf] mb-4">Payment Successful!</h1>
+        <p className="text-gray-700 mb-6">
+          Your subscription for <strong>{subscription?.productId?.name}</strong> ({subscription?.planName}) has been activated.
         </p>
-        <p className="text-gray-700 text-lg mb-2">
-          <span className="font-semibold">Plan:</span> {subscription.planName}
-        </p>
-        <p className="text-gray-700 text-lg mb-2">
-          <span className="font-semibold">Support valid until:</span>{" "}
-          {endDate.toLocaleDateString()}
-        </p>
-        <p className="text-gray-700 text-lg mb-6">
-          <span className="font-semibold">Support Duration:</span> {diffDays}{" "}
-          {diffDays === 1 ? "day" : "days"}
-        </p>
-
-        <button
-          onClick={() => navigate("/my-account/my-subscription")}
-          className="px-6 py-3 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition"
+        <Link
+          to="/my-account/my-subscription"
+          className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-700 transition-all"
         >
           My Subscription
-        </button>
+        </Link>
       </div>
     </div>
   );
-}
+};
+
+export default Success;

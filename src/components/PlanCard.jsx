@@ -10,6 +10,7 @@ export default function PlanCard({ plan, productId, isPopular = true }) {
     const navigate = useNavigate();
     const [isHovered, setIsHovered] = useState(false);
     const [isLoggedin, setIsLoggedin] = useState(false);
+    const [loader, setLoader] = useState(false);
 
     useEffect(() => {
         const checkAuth = async () => {
@@ -27,16 +28,24 @@ export default function PlanCard({ plan, productId, isPopular = true }) {
     }, [token]);
 
     const handlePurchase = async () => {
-        if (!isLoggedin) return toast.error("Please login to purchase any Plan");
+        if (!isLoggedin) {
+            toast.error("Please login to purchase any Plan")
+            navigate("/login")
+            return;
+        };
         try {
+            setLoader(true);
             const res = await purchaseSubscription(
                 { productId, planName: plan.name },
                 token
             )
-            toast.success(res.message);
-            navigate(`/success/${res.successToken}`);
+            if (res.url) {
+                window.location.href = res.url;
+            }
         } catch (error) {
             toast.error(error.message)
+        } finally {
+            setLoader(false);
         }
     }
 
@@ -86,7 +95,16 @@ export default function PlanCard({ plan, productId, isPopular = true }) {
                 ? 'bg-white text-blue-600 hover:bg-blue-50 shadow-lg'
                 : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 shadow-md hover:shadow-lg'
                 }`}>
-                Buy Now
+                {loader ? (
+                    <>
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center z-50 transition-opacity duration-500">
+                            <span className="loader"></span>
+                        </div>
+                    </>
+                ) : (
+                    "Buy Now"
+                )
+                }
             </button>
         </div>
     );

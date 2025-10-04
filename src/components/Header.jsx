@@ -58,7 +58,7 @@ const Header = () => {
         <div className="logo">
           <Link to="/">
             <img
-              className="w-[150px] max-md:w-[100px]"
+              className="w-[100px] max-md:w-[80px]"
               src="/logo.png"
               alt="Logo"
             />

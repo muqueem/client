@@ -17,6 +17,7 @@ import MySubscription from "./components/MySubscription";
 import ProductsList from "./pages/ProductsList";
 import ProductPage from "./pages/ProductPage";
 import Context from "../context/Context";
+import Services from "./pages/Services";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
+            <Route path="/services" element={<Services />} />
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             {/* <Route path="/plans" element={<Plans />} /> */}

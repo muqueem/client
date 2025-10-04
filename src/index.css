@@ -18,6 +18,11 @@
   @apply w-5/6 mx-auto my-0
 }
 
+
+.heading {
+  color: #dbb149 !important;
+}
+
 .loader {
     animation: rotate 1s infinite;
     height: 50px;

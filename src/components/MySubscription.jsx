@@ -6,8 +6,10 @@ import toast from 'react-hot-toast';
 
 const MySubscription = () => {
   const token = getDecryptedData("token");
-  const [subscriptions, setSubscriptions] = useState([]);
+  const [subscription, setSubscriptions] = useState([]);
+  const [plan, setPlan] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
     const fetchSubscriptions = async () => {
@@ -19,6 +21,7 @@ const MySubscription = () => {
         setLoading(true);
         const res = await getUserSubscription(token);
         setSubscriptions(res);
+        setPlan(res.productId.plans.filter((plan) => plan.name === res.planName)[0]);
       } catch (error) {
         console.error(error);
       } finally {
@@ -28,18 +31,23 @@ const MySubscription = () => {
     fetchSubscriptions();
   }, [token]);
 
+  console.log(subscription);
+  console.log(plan);
+
   const handleRenewSupport = async (subscriptionId) => {
-    if (!token) return;
     try {
+      setLoader(true);
       const res = await renewSupport({ subscriptionId }, token);
-      setSubscriptions(res.subscription);
-      console.log(res);
-      toast.success(res.message);
+      if (res.url) {
+        window.location.href = res.url; // Redirect to Stripe Checkout
+      }
     } catch (err) {
-      console.error(err);
-      toast.error("Failed to renew support ❌");
+      toast.error(err.message);
+    } finally {
+      setLoader(false);
     }
   };
+
 
   if (loading) {
     return (
@@ -49,7 +57,7 @@ const MySubscription = () => {
     );
   }
 
-  if (!subscriptions || subscriptions.length === 0) {
+  if (!subscription || subscription.length === 0) {
     return (
       <div className="flex flex-col justify-center items-center py-16 px-4 text-center">
         <h1 className="text-2xl sm:text-3xl font-bold mb-6">
@@ -65,48 +73,88 @@ const MySubscription = () => {
     );
   }
 
-  const supportEnd = subscriptions.supportEndDate
-    ? new Date(subscriptions.supportEndDate).toLocaleDateString('en-IN', {
+  const supportEnd = subscription.supportEndDate
+    ? new Date(subscription.supportEndDate).toLocaleDateString('en-IN', {
       day: 'numeric',
       month: '2-digit',
       year: 'numeric'
     })
     : "Lifetime";
 
+  if (loader) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black/40 bg-opacity-60 flex items-center justify-center">
+        <span className="loader"></span>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex flex-col items-center sm:px-6 py-10 space-y-6">
-      <div
-        key={subscriptions._id}
-        className="w-full max-w-md relative bg-white rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6 flex flex-col transition-all duration-300 hover:shadow-2xl"
-      >
-        <span className="absolute top-4 right-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full">
-          Current Plan
-        </span>
+    <>
+      <div className="flex flex-col items-center px-4 sm:px-6 py-10 space-y-10 max-w-4xl mx-auto">
+        <div className="relative w-full bg-white rounded-2xl shadow-lg border border-gray-200 overflow-hidden">
+          <div className="bg-gradient-to-r from-blue-500 to-blue-700 p-6 sm:p-8 text-white">
+            <h2 className="text-2xl sm:text-3xl font-bold">
+              {subscription.planName}
+            </h2>
+            <p className="text-sm mt-1">Plan Status: <span className="font-semibold">{subscription.isActive ? "Active" : "Inactive"}</span></p>
+          </div>
 
-        <h2 className="text-xl sm:text-2xl font-bold text-white bg-gradient-to-r from-blue-400 to-blue-600 inline-block px-6 sm:px-10 py-4 sm:py-6 rounded-md mb-4">
-          {subscriptions.planName}
-        </h2>
+          <div className="p-6 sm:p-8 space-y-6">
+            {/* Product Details */}
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Product:</h3>
+              <p className="text-gray-600">{subscription.productId?.name}</p>
+            </div>
 
-        <div className="px-2 sm:px-6">
-          <p className="text-lg font-semibold text-gray-700">
-            Product: {subscriptions.productId?.name}
-          </p>
+            {/* Support Info */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 mb-1">Support Ends:</h4>
+                <p className="text-gray-900">{supportEnd}</p>
+              </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mt-2 text-gray-600 text-sm sm:text-base">
-            <h3 className="font-medium">Support Ends on:</h3>
-            <p className="font-semibold">{supportEnd}</p>
+              <div>
+                <h4 className="text-sm font-semibold text-gray-700 mb-1">Renewal Cost:</h4>
+                <p className="text-gray-900">
+                  {plan.renew
+                    ? `${plan.currency} ${plan.renew}`
+                    : "No renewal available"}
+                </p>
+              </div>
+            </div>
+
+            {/* Product Description */}
+            <div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-2">About this EA:</h4>
+              <p className="text-gray-600 whitespace-pre-line">{subscription.productId.description}</p>
+            </div>
+
+            {/* Features */}
+            <div>
+              <h4 className="text-lg font-semibold text-gray-800 mb-2">Key Features:</h4>
+              <ul className="list-disc list-inside space-y-1 text-gray-600">
+                {subscription.productId.features?.map((feature, index) => (
+                  <li key={index}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Renew Button */}
+            <div className="pt-4">
+              <button
+                onClick={() => handleRenewSupport(subscription._id)}
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 text-white py-3 rounded-xl font-semibold transition-all duration-300 text-base"
+              >
+                Renew Support for ${plan.currency} ${plan.renew}
+              </button>
+            </div>
           </div>
         </div>
-
-        <button
-          onClick={() => handleRenewSupport(subscriptions._id)}
-          className="w-full mt-4 bg-gradient-to-r from-blue-400 to-blue-600 hover:from-blue-500 hover:to-blue-700 text-white py-3 rounded-xl font-semibold transition-all duration-300 text-sm sm:text-base"
-        >
-          Renew Support
-        </button>
       </div>
-    </div>
+    </>
   );
+
 };
 
 export default MySubscription;

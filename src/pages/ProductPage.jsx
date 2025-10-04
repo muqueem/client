@@ -11,8 +11,6 @@ export default function ProductPage() {
 
   // Find product by slug or use default
   const product = products.find(p => p.slug === slug);
-  console.log("products", products);
-  console.log("product", product);
 
   if (!product) {
     return (

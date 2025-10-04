@@ -12,45 +12,53 @@ export default function CapitalAllocationCalculator() {
   const [capital, setCapital] = useState(5000);
 
   return (
-    <section className="py-20 bg-gray-900 text-white">
-      <div className="container">
-        <div className="text-center mb-10">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Capital Allocation Calculator
-          </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Enter your capital amount to see how we recommend allocating it
-            across our Expert Advisors (EAs) using risk-adjusted weighting.
-          </p>
-        </div>
+    <div className="max-w-3xl mx-auto py-12 md:px-6">
+      <div className="bg-gradient-to-r from-yellow-100 via-yellow-50 to-white rounded-2xl shadow-2xl p-3 md:p-8">
+        <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+          Capital Allocation Calculator
+        </h2>
 
         <div className="max-w-md mx-auto mb-8">
+          <label className="block text-sm font-medium text-gray-700 mb-2">
+            Enter Capital Amount
+          </label>
           <input
             type="number"
             value={capital}
             onChange={(e) => setCapital(e.target.value)}
-            className="w-full p-3 rounded-lg border"
+            className="w-full p-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-yellow-400 focus:outline-none shadow-sm"
             placeholder="Enter your capital amount"
           />
         </div>
 
         <div className="overflow-x-auto">
-          <table className="min-w-full text-left border border-gray-700 rounded-xl">
-            <thead className="bg-gray-800">
+          <table className="min-w-full border-collapse rounded-xl overflow-hidden shadow-md">
+            <thead className="bg-yellow-100">
               <tr>
-                <th className="p-4">EA Name</th>
-                <th className="p-4 text-right">Weight %</th>
-                <th className="p-4 text-right">Suggested Amount</th>
+                <th className="p-4 text-left text-gray-700 font-semibold">
+                  EA Name
+                </th>
+                <th className="p-4 text-right text-gray-700 font-semibold">
+                  Weight %
+                </th>
+                <th className="p-4 text-right text-gray-700 font-semibold">
+                  Suggested Amount
+                </th>
               </tr>
             </thead>
             <tbody>
               {EA_CALCULATOR_DATA.map((ea, i) => {
                 const allocation = ((capital * ea.weight) / 100).toFixed(2);
                 return (
-                  <tr key={i} className="hover:bg-gray-800">
-                    <td className="p-4 font-medium">{ea.name}</td>
-                    <td className="p-4 text-right">{ea.weight}%</td>
-                    <td className="p-4 text-right">${allocation}</td>
+                  <tr
+                    key={i}
+                    className="border-b last:border-b-0 hover:bg-yellow-50 transition-colors duration-200"
+                  >
+                    <td className="p-4 font-medium text-gray-800">{ea.name}</td>
+                    <td className="p-4 text-right text-gray-600">{ea.weight}%</td>
+                    <td className="p-4 text-right font-semibold text-green-600">
+                      ${allocation}
+                    </td>
                   </tr>
                 );
               })}
@@ -58,6 +66,6 @@ export default function CapitalAllocationCalculator() {
           </table>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -46,6 +46,7 @@ export const getProducts = () => apiRequest("/products");
 export const purchaseSubscription = (payload, token) => apiRequest("/subscription/purchase", "POST", payload, token);
 export const getUserSubscription = (token) => apiRequest("/subscription/my", "GET", null, token);
 export const renewSupport = (payload, token) => apiRequest("/subscription/renew-support", "POST", payload, token);
+export const getSubscriptionByToken = (sessionId) => apiRequest(`/subscription/success/${sessionId}`);
 
 // Admin: get all subscriptions (if you have admin route)
 export const getAllSubscriptions = (token) => apiRequest("/admin/get-all-subscriptions", "GET", null, token);

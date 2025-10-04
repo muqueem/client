@@ -6,10 +6,9 @@ const Nav = ({ setIsMenuOpen = () => { } }) => {
   // Nav.js
   const quickLinks = [
     { name: "Home", href: "/" },
-    { name: "About Us", href: "/about" },
     { name: "Products", href: "/products" },
+    { name: "Services", href: "/services" },
     { name: "Contact Us", href: "/contact" },
-    // { name: "Plans", href: "/plans" },
   ];
 
 
