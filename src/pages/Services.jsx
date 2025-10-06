@@ -1,64 +1,75 @@
 import React from "react";
 
-// You can import images directly if you want, or keep them in /public/services
-// Example: import Service1 from "../assets/service1.png";
-
 const services = [
   {
-    title: "Algorithmic Trading",
+    title: "Personal Consultation & Capital Advisory",
     image: "/images/services/service1.png",
     description:
-      "Leverage cutting-edge algorithms to execute trades with speed, precision, and data-backed strategies.",
+      "Tailored one-on-one guidance designed to help you optimize your capital allocation and enhance portfolio performance. We focus on smart risk management, efficient diversification, and forward-thinking strategies to ensure your money works harder for you.",
   },
   {
-    title: "Portfolio Management",
+    title: "Quarterly Bot Optimization Subscription",
     image: "/images/services/service2.png",
     description:
-      "Maximize returns while managing risk with our active portfolio allocation and monitoring tools.",
+      "Markets evolve, and so should your bots. With our subscription service, we provide quarterly parameter reviews and updates for every Quantum Rise Capital trading bot. Stay ahead of market shifts with strategies that adapt, not stagnate.",
   },
   {
-    title: "Risk Analysis",
+    title: "Prop Firm System Design & Challenge Acceleration",
     image: "/images/services/service3.png",
     description:
-      "Gain deep insights into market risks and safeguard your investments with our advanced analytics.",
+      "Every prop firm has its own rules, restrictions, and hidden traps. We build and test custom trading systems engineered for specific prop firm conditions maximizing your chances of passing challenges quickly and securing funded accounts.",
   },
   {
-    title: "Capital Growth Solutions",
+    title: "Custom EA Development & Partnership Program",
     image: "/images/services/service4.png",
     description:
-      "Strategic approaches designed to help your capital grow consistently with disciplined frameworks.",
+      "Got a trading idea? We’ll transform it into a fully automated MT5 trading system—from concept to execution. If your strategy is both unique and market-ready, we’ll even publish it on our platform with a 50/50 profit-sharing model. Your idea, our tech, shared success.",
   },
 ];
 
 const Services = () => {
   return (
-    <div className="bg-white text-black min-h-screen py-20">
-      <div className="container mx-auto px-6">
-        <h1 className="text-4xl font-bold text-center mb-12 text-yellow-600">
-          Our Services
-        </h1>
-        <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
+    <section className="bg-gradient-to-b from-gray-50 to-white py-20">
+      <div className="container mx-auto px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
+            Our Services
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Practical trading solutions tailored for every stage of your growth — from smart capital allocation to advanced automation.
+          </p>
+        </div>
+
+        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           {services.map((service, index) => (
             <div
               key={index}
-              className="bg-white border rounded-xl shadow-md hover:shadow-xl transition-all duration-300 p-6 flex flex-col items-center text-center"
+              className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 flex flex-col items-center text-center border border-gray-200"
             >
-              <img
-                src={service.image}
-                alt={service.title}
-                className="w-32 h-32 object-contain mb-6"
-              />
-              <h2 className="text-xl font-semibold mb-3">{service.title}</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">
+              <div className="w-40 h-40 mb-4">
+                <img
+                  src={service.image}
+                  alt={service.title}
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">
+                {service.title}
+              </h3>
+              <p className="text-sm text-gray-600 leading-relaxed">
                 {service.description}
               </p>
+
+              {/* Optional badge or tag */}
+              {/* <span className="mt-4 inline-block bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full">
+                Premium
+              </span> */}
             </div>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 export default Services;
-

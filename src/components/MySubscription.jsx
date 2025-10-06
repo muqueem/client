@@ -73,13 +73,30 @@ const MySubscription = () => {
     );
   }
 
-  const supportEnd = subscription.supportEndDate
-    ? new Date(subscription.supportEndDate).toLocaleDateString('en-IN', {
-      day: 'numeric',
-      month: '2-digit',
-      year: 'numeric'
-    })
-    : "Lifetime";
+  const getSupportStatus = (endDate) => {
+    if (!endDate) return "Lifetime";
+
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const supportEnd = new Date(endDate);
+    const endDay = new Date(supportEnd.getFullYear(), supportEnd.getMonth(), supportEnd.getDate());
+
+    const diffTime = endDay - today;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays > 1) {
+      return `${diffDays} days left`;
+    } else if (diffDays === 1) {
+      return "Ends tomorrow";
+    } else if (diffDays === 0) {
+      return "Ends today";
+    } else {
+      return "Support expired";
+    }
+  };
+
+
+  const supportStatus = getSupportStatus(subscription.supportEndDate);
 
   if (loader) {
     return (
@@ -111,7 +128,7 @@ const MySubscription = () => {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <h4 className="text-sm font-semibold text-gray-700 mb-1">Support Ends:</h4>
-                <p className="text-gray-900">{supportEnd}</p>
+                <p className="text-gray-900">{supportStatus}</p>
               </div>
 
               <div>
